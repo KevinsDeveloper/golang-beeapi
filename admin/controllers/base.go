@@ -10,6 +10,8 @@ type BaseController struct {
 
     controllerName string
     actionName     string
+    layouts        string
+    tplsuffix      string
     auth           interface{}
     auth_id        int
     pagesize       int
@@ -18,6 +20,9 @@ type BaseController struct {
 // Method 方法之前执行
 func (self *BaseController) Prepare() {
     self.pagesize = 12
+    self.layouts = "layout/layout"
+    self.tplsuffix = "tpl"
+
     controllerName, actionName := self.GetControllerAndAction()
     self.controllerName = strings.ToLower(controllerName[0: len(controllerName)-10])
     self.actionName = strings.ToLower(actionName)
@@ -51,14 +56,13 @@ func (self *BaseController) redirect(url string) {
 
 // 自动加载模板
 func (self *BaseController) display(tpl ...string) {
-    suffix := "tpl"
     tplname := ""
     if len(tpl) > 0 {
-        tplname = strings.Join([]string{tpl[0], suffix}, ".")
+        tplname = strings.Join([]string{tpl[0], self.tplsuffix}, ".")
     } else {
-        tplname = self.controllerName + "/" + self.actionName + "." + suffix
+        tplname = self.controllerName + "/" + self.actionName + "." + self.tplsuffix
     }
-    self.Layout = "layout/layout." + suffix
+    self.Layout = self.layouts + "." + self.tplsuffix
     self.TplName = tplname
 }
 
