@@ -17,10 +17,12 @@ func (this *ErrorController) toJson(ret int, msg string) {
     this.StopRun()
 }
 
+// 404错误
 func (this *ErrorController) Error404() {
     this.toJson(404, "url not found")
 }
 
+// 500错误
 func (this *ErrorController) Error500() {
     this.toJson(404, "server error")
 }

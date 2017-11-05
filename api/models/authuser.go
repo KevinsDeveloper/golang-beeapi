@@ -6,17 +6,17 @@ import (
 
 type AuthUser struct {
     Id             int
-    role_id        int
-    account        string
-    realname       string
-    phone          string
-    position       string
-    password       string
-    password_token string
-    status         int
-    login_at       int
-    created_at     int
-    updated_at     int
+    Role_id        int
+    Account        string
+    Realname       string
+    Phone          string
+    Position       string
+    Password       string
+    Password_token string
+    Status         int
+    Login_at       int
+    Created_at     int
+    Updated_at     int
 }
 
 func (this *AuthUser) TableName() string {

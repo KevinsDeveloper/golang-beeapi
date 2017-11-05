@@ -7,6 +7,7 @@ import (
     _ "github.com/go-sql-driver/mysql"
 )
 
+// 初始化
 func Init() {
     host := beego.AppConfig.String("db.host")
     port := beego.AppConfig.String("db.port")
@@ -34,9 +35,9 @@ func Init() {
     if beego.AppConfig.String("runmode") == "dev" {
         orm.Debug = true
     }
-
 }
 
+// 数据表名
 func TableName(name string) string {
     return beego.AppConfig.String("db.prefix") + name
 }
