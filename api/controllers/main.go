@@ -13,6 +13,7 @@ type MainController struct {
 // @Description 默认访问页
 // @router / [get]
 func (this *MainController) GetAll() {
+    //logs.Error(500, "服务器错误")
     this.toJson(100011, "Success", 500)
 }
 
@@ -23,7 +24,7 @@ func (this *MainController) GetAll() {
 func (this *MainController) PostLists() {
     flt := make([]interface{}, 0)
     filters := append(flt, "Id", 1)
-    filters = append(filters, "RoleId", 0)
+    filters = append(filters, "RoleId", 1)
 
     obs := new(models.AuthUser)
     data, _ := obs.One(filters...)

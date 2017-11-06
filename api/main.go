@@ -3,17 +3,11 @@ package main
 import (
     _ "beego/api/routers"
     "github.com/astaxie/beego"
-    "beego/api/controllers"
-    "beego/api/models"
+    "beego/api/libs"
 )
 
 func main() {
-    if beego.BConfig.RunMode == "dev" {
-        beego.BConfig.WebConfig.DirectoryIndex = true
-        beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
-    }
     Bootstrap()
-    models.Init()
-    beego.ErrorController(&controllers.ErrorController{})
+    libs.Init()
     beego.Run()
 }
