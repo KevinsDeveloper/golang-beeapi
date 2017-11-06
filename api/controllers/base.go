@@ -31,10 +31,11 @@ func (this *BaseController) authValidate() {
 }
 
 // 返回JSON提示信息
-func (this *BaseController) toJson(ret int, msg string) {
+func (this *BaseController) toJson(code int, msg string, types int) {
     data := make(map[string]interface{})
-    data["Ret"] = ret
-    data["Msg"] = msg
+    data["errType"] = types
+    data["retCode"] = code
+    data["retMsg"] = msg
 
     this.Data["json"] = data
     this.ServeJSON()
@@ -44,11 +45,10 @@ func (this *BaseController) toJson(ret int, msg string) {
 // 返回JSON数据
 func (this *BaseController) toJsonData(datas interface{}, msg string) {
     data := make(map[string]interface{})
-    data["Ret"] = 200
-    data["Msg"] = msg
-    data["Data"] = datas
+    data["retCode"] = 0
+    data["retMsg"] = msg
+    data["retData"] = datas
 
     this.Data["json"] = data
     this.ServeJSON()
-    this.StopRun()
 }

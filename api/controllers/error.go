@@ -7,10 +7,11 @@ type ErrorController struct {
 }
 
 // 返回JSON提示信息
-func (this *ErrorController) toJson(ret int, msg string) {
+func (this *ErrorController) toJson(ret int, msg string, types int) {
     data := make(map[string]interface{})
-    data["ret"] = ret
-    data["msg"] = msg
+    data["errType"] = types
+    data["retCode"] = ret
+    data["retMsg"] = msg
 
     this.Data["json"] = data
     this.ServeJSON()
@@ -19,10 +20,10 @@ func (this *ErrorController) toJson(ret int, msg string) {
 
 // 404错误
 func (this *ErrorController) Error404() {
-    this.toJson(404, "url not found")
+    this.toJson(404, "url not found", 404)
 }
 
 // 500错误
 func (this *ErrorController) Error500() {
-    this.toJson(404, "server error")
+    this.toJson(404, "server error", 500)
 }

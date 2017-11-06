@@ -5,18 +5,18 @@ import (
 )
 
 type AuthUser struct {
-    Id             int
-    Role_id        int
-    Account        string
-    Realname       string
-    Phone          string
-    Position       string
-    Password       string
-    Password_token string
-    Status         int
-    Login_at       int
-    Created_at     int
-    Updated_at     int
+    Id            int
+    RoleId        int
+    Account       string
+    Realname      string
+    Phone         string
+    Position      string
+    Password      string
+    PasswordToken string
+    Status        int
+    Login_at      int
+    Created_at    int
+    Updated_at    int
 }
 
 func (this *AuthUser) TableName() string {

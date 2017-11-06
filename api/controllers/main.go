@@ -13,16 +13,17 @@ type MainController struct {
 // @Description 默认访问页
 // @router / [get]
 func (this *MainController) GetAll() {
-    this.toJson(200, "Success")
+    this.toJson(100011, "Success", 500)
 }
 
-// @Title GetAll
-// @Description get all objects
+// @Title 获取列表
+// @Description 获取管理员列表
 // @Success 200 {object} models.Object
 // @router /lists [get]
 func (this *MainController) PostLists() {
     flt := make([]interface{}, 0)
     filters := append(flt, "Id", 1)
+    filters = append(filters, "RoleId", 0)
 
     obs := new(models.AuthUser)
     data, _ := obs.One(filters...)
