@@ -27,7 +27,7 @@ func Bootstrap() {
             ]
         }`)
     logs.Async()
-    
+
     // 错误处理控制器
     beego.ErrorController(&controllers.ErrorController{})
 }

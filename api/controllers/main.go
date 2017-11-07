@@ -16,11 +16,8 @@ type MainController struct {
 // @router / [get]
 func (this *MainController) GetAll() {
     //logs.Error
-    rc := new(libs.Redis)
-    if v, err := rc.Do("GET", "b"); err == nil {
-        fmt.Println(v)
-    }
-
+    rc := libs.Redis().Set("test", "aaa", 0).Err()
+    fmt.Println(rc)
     this.toJson(100011, "Success", 500)
 }
 
