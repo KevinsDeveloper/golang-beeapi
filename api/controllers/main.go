@@ -2,6 +2,8 @@ package controllers
 
 import (
     "beego/api/models"
+    "beego/api/libs"
+    "fmt"
 )
 
 // Operations about object
@@ -13,7 +15,12 @@ type MainController struct {
 // @Description 默认访问页
 // @router / [get]
 func (this *MainController) GetAll() {
-    //logs.Error(500, "服务器错误")
+    //logs.Error
+    rc := new(libs.Redis)
+    if v, err := rc.Do("GET", "b"); err == nil {
+        fmt.Println(v)
+    }
+
     this.toJson(100011, "Success", 500)
 }
 

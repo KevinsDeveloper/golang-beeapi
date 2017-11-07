@@ -36,9 +36,6 @@ func Init() {
     if beego.AppConfig.String("runmode") == "dev" {
         orm.Debug = true
     }
-
-    redis := new(Redis)
-    redis.Client()
 }
 
 // 数据表名
