@@ -1,28 +1,51 @@
 package libs
 
 import (
-    "github.com/go-redis/redis"
+    "github.com/garyburd/redigo/redis"
     "github.com/astaxie/beego"
     "time"
 )
 
-var Redis *redis.Client
+var client *redis.Pool
 
 func init() {
     host := beego.AppConfig.String("redis.host")
     port := beego.AppConfig.String("redis.port")
-    db, _ := beego.AppConfig.Int("redis.db")
+    dbNum, _ := beego.AppConfig.Int("redis.db")
     password := beego.AppConfig.String("redis.password")
 
-    Redis = redis.NewClient(&redis.Options{
-        Addr:         host + ":" + port,
-        Password:     password, // no password set
-        DB:           db,       // use default DB
-        DialTimeout:  10 * time.Second,
-        ReadTimeout:  30 * time.Second,
-        WriteTimeout: 30 * time.Second,
-        PoolSize:     10,
-        PoolTimeout:  30 * time.Second,
-    })
-    Redis.FlushDB()
+    dialFunc := func() (c redis.Conn, err error) {
+        c, err = redis.Dial("tcp", host+":"+port)
+        if err != nil {
+            return nil, err
+        }
+
+        if password != "" {
+            if _, err := c.Do("AUTH", password); err != nil {
+                c.Close()
+                return nil, err
+            }
+        }
+
+        _, selecterr := c.Do("SELECT", dbNum)
+        if selecterr != nil {
+            c.Close()
+            return nil, selecterr
+        }
+        return
+    }
+    // initialize a new pool
+    client = &redis.Pool{
+        MaxIdle:     3,
+        IdleTimeout: 180 * time.Second,
+        Dial:        dialFunc,
+    }
+
+}
+
+// actually do the redis cmds
+func Redis(commandName string, args ...interface{}) (reply interface{}, err error) {
+    c := client.Get()
+    defer c.Close()
+    return c.Do(commandName, args...)
 }

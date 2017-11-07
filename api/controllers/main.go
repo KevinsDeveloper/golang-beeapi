@@ -4,6 +4,7 @@ import (
     "beego/api/models"
     "beego/api/libs"
     "fmt"
+    "github.com/garyburd/redigo/redis"
 )
 
 // Operations about object
@@ -16,11 +17,14 @@ type MainController struct {
 // @router / [get]
 func (this *MainController) GetAll() {
     //logs.Error
-    //libs.Redis().Set("test", "demo", 0)
-    val := libs.Redis.Set("test", "demo123", 0)
-    fmt.Println("key", val)
-    gt, _ := libs.Redis.Get("test").Result()
-    fmt.Println(gt)
+    v, err := redis.String(libs.Redis("GET", "mykey"))
+    fmt.Println(v, err)
+
+    _, err = libs.Redis("SET", "mykey", "superWang")
+    if err != nil {
+        fmt.Println("redis set failed:", err)
+    }
+
     //libs.Redis().Close()
     this.toJson(100011, "Success", 500)
 }
