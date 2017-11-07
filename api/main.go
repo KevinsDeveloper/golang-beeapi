@@ -3,11 +3,11 @@ package main
 import (
     _ "beego/api/routers"
     "github.com/astaxie/beego"
-    "beego/api/libs"
+    "beego/api/models"
 )
 
 func main() {
     Bootstrap()
-    libs.Init()
+    models.Init()
     beego.Run()
 }
